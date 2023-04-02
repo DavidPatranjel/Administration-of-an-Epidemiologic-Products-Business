@@ -10,7 +10,7 @@ public final class Menu {
         try {
             instance = new Menu();
         } catch (Exception e) {
-            throw new RuntimeException("Exception occurred in creating singleton instance");
+            throw new RuntimeException("Exception occurred in creating Menu singleton instance");
         }
     }
     public static Menu getInstance() {
@@ -24,14 +24,25 @@ public final class Menu {
     {
         System.out.println("ADMINISTRATION OF AN EPIDEMIC PRODUCTS BUSINESS - DAVID PATRANJEL 251");
         System.out.println("Here are all the actions you can choose from:");
-        System.out.println("1. ");
-        System.out.println("2. ");
+        System.out.println("1. Add a mask.");
+        System.out.println("2. List all the masks.");
+        System.out.println("3. Delete a mask.");
+        System.out.println("4. Add a sanitizer.");
+        System.out.println("5. List all the sanitizers.");
+        System.out.println("6. Delete a sanitizer.");
+        System.out.println("7. Add a client.");
+        System.out.println("8. List all the clients.");
+        System.out.println("9. Add a acquisition.");
+        System.out.println("10. List all the acquisitions.");
+        System.out.println("11. Show income in a given month.");
+        System.out.println("12. Show TVA (19% of income) for a given year.");
         System.out.println("0. Exit");
         System.out.println("-------------------------------------");
     }
     public void runMenu(){
         Scanner reader = new Scanner(System.in);
-        Service service = new Service();
+        Service service = Service.getInstance();
+        Reader objReader = Reader.getInstance();
         int op;
 
         do
@@ -40,8 +51,48 @@ public final class Menu {
             System.out.print("Please insert your option: ");
             op = reader.nextInt();
             reader.nextLine();
-
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
             switch (op) {
+                case 1 -> {
+                    service.addMask(objReader.readMask());
+                    System.out.println("You created a new mask");
+                }
+                case 2 -> {
+                    service.listMasks();
+                }
+                case 3-> {
+                    System.out.println("delete mask");
+                }
+                case 4 -> {
+                    service.addSanitizer(objReader.readSanitizer());
+                    System.out.println("You created a new sanitizer");
+
+                }
+                case 5 -> {
+                    service.listSanitizers();
+                }
+                case 6 -> {
+                    System.out.println("delete sanitizer");
+                }
+                case 7 -> {
+                    System.out.println("create client");
+                }
+                case 8 -> {
+                    System.out.println("list clients");
+                }
+                case 9 -> {
+                    System.out.println("create acquisition");
+                }
+                case 10 -> {
+                    System.out.println("list acquisitions");
+                }
+                case 11 -> {
+                    System.out.println("print income/month");
+                }
+                case 12 -> {
+                    System.out.println("print tva/year");
+                }
                 case 0 -> {
                     System.out.println("You left the app. Goodbye!");
                 }
