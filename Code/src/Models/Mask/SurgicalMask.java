@@ -1,10 +1,25 @@
 package Models.Mask;
 
+import java.util.Objects;
+
 public class SurgicalMask extends Mask {
 
-    public SurgicalMask(String protectionType, String colour, int noFolds, double price) {
-        super(protectionType, colour, noFolds, price);
+    public SurgicalMask(String protectionType, String colour, int noFolds) {
+        super(protectionType, colour, noFolds, 10);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SurgicalMask other = (SurgicalMask) o;
+        return this.protectionType.equals(other.protectionType)
+                && this.colour.equals(other.colour)
+                && this.noFolds == other.noFolds
+                && this.price == other.price;
+    }
+
 
     @Override
     public String toString() {

@@ -20,4 +20,31 @@ public class Address {
         this.number = number;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Address)) {
+            return false;
+        }
+
+        Address a = (Address) obj;
+
+        return country.equals(a.country) &&
+                city.equals(a.city) &&
+                street.equals(a.street) &&
+                number == a.number;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", number=" + number +
+                '}';
+    }
 }

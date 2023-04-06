@@ -1,4 +1,5 @@
 package App;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public final class Menu {
@@ -22,6 +23,7 @@ public final class Menu {
 
     private void textMenu()
     {
+        System.out.println("-----------------------------------------------");
         System.out.println("ADMINISTRATION OF AN EPIDEMIC PRODUCTS BUSINESS - DAVID PATRANJEL 251");
         System.out.println("Here are all the actions you can choose from:");
         System.out.println("1. Add a mask.");
@@ -36,10 +38,12 @@ public final class Menu {
         System.out.println("10. List all the acquisitions.");
         System.out.println("11. Show income in a given month.");
         System.out.println("12. Show TVA (19% of income) for a given year.");
+        System.out.println("13. Show all sanitizers sorted desc. by efficiency and asc. by killed organisms.");
+        System.out.println("14. Read test input.");
         System.out.println("0. Exit");
-        System.out.println("-------------------------------------");
+        System.out.println("-----------------------------------------------");
     }
-    public void runMenu(){
+    public void runMenu() throws FileNotFoundException {
         Scanner reader = new Scanner(System.in);
         Service service = Service.getInstance();
         Reader objReader = Reader.getInstance();
@@ -50,36 +54,32 @@ public final class Menu {
             textMenu();
             System.out.print("Please insert your option: ");
             op = reader.nextInt();
-            reader.nextLine();
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
+            ///reader.nextLine();
+            System.out.println("-----------------------------------------------");
             switch (op) {
                 case 1 -> {
                     service.addMask(objReader.readMask());
-                    System.out.println("You created a new mask");
                 }
                 case 2 -> {
                     service.listMasks();
                 }
                 case 3-> {
-                    System.out.println("delete mask");
+                    service.deleteMask(objReader.readIndex());
                 }
                 case 4 -> {
                     service.addSanitizer(objReader.readSanitizer());
-                    System.out.println("You created a new sanitizer");
-
                 }
                 case 5 -> {
                     service.listSanitizers();
                 }
                 case 6 -> {
-                    System.out.println("delete sanitizer");
+                    service.deleteSanitizer(objReader.readIndex());
                 }
                 case 7 -> {
-                    System.out.println("create client");
+                    service.addClient(objReader.readClient());
                 }
                 case 8 -> {
-                    System.out.println("list clients");
+                    service.listClients();
                 }
                 case 9 -> {
                     System.out.println("create acquisition");
@@ -93,6 +93,15 @@ public final class Menu {
                 case 12 -> {
                     System.out.println("print tva/year");
                 }
+                case 13 -> {
+                    service.sortedSanitizers();
+                }
+                case 14 -> {
+                    service.setMasks(objReader.readMasksFromFile());
+                    service.setSanitizers(objReader.readSanitizerFromFile());
+                    service.setClients(objReader.readClientsFromFile());
+                    System.out.println("All the data has been read from the files.");
+                }
                 case 0 -> {
                     System.out.println("You left the app. Goodbye!");
                 }
@@ -102,5 +111,6 @@ public final class Menu {
 
         } while (op != 0);
 
+        reader.close();
     }
 }
