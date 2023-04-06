@@ -3,7 +3,7 @@ package Models.Sanitizer;
 import java.util.Set;
 
 public class FungalSanitizer extends Sanitizer{
-    private final static int totalFungi = 15 * (10 ^ 5);
+    private final static double totalFungi = 15 * (1e5);
 
     public FungalSanitizer(int noKilledOrganisms, Set<String> ingredients, Set<String> surfaces) {
         super(noKilledOrganisms, ingredients, surfaces);
@@ -18,5 +18,17 @@ public class FungalSanitizer extends Sanitizer{
                 ", price=" + price +
                 ", efficiency=" + efficiency +
                 '}';
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof FungalSanitizer)) {
+            return false;
+        }
+
+        FungalSanitizer other = (FungalSanitizer) obj;
+        return super.equals(other);
     }
 }

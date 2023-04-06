@@ -2,7 +2,7 @@ package Models.Sanitizer;
 
 import java.util.Set;
 
-public abstract class Sanitizer {
+public abstract class Sanitizer implements Comparable<Sanitizer>{
     protected int noKilledOrganisms;
     protected Set<String> ingredients;
     protected Set<String> surfaces;
@@ -11,8 +11,8 @@ public abstract class Sanitizer {
 
     public Sanitizer(int noKilledOrganisms, Set<String> ingredients, Set<String> surfaces) {
         this.noKilledOrganisms = noKilledOrganisms;
-        this.ingredients = ingredients;
-        this.surfaces = surfaces;
+        this.ingredients = Set.copyOf(ingredients);
+        this.surfaces = Set.copyOf(surfaces);
     }
 
     double findPrice(){
@@ -28,5 +28,29 @@ public abstract class Sanitizer {
             return 50;
         }
     }
+    @Override
 
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Sanitizer)) {
+            return false;
+        }
+        Sanitizer other = (Sanitizer) obj;
+        return this.noKilledOrganisms == other.noKilledOrganisms &&
+                this.ingredients.equals(other.ingredients) &&
+                this.surfaces.equals(other.surfaces) &&
+                this.price == other.price &&
+                this.efficiency == other.efficiency;
+    }
+
+    @Override
+    public int compareTo(Sanitizer s){
+        if(efficiency == s.efficiency){
+            return Integer.compare(noKilledOrganisms, s.noKilledOrganisms);
+        }else{
+            return Double.compare(s.efficiency, efficiency);
+        }
+    }
 }
