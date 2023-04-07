@@ -1,6 +1,6 @@
 package Models.Mask;
 
-public abstract class Mask {
+public abstract class Mask implements Cloneable{
     protected String protectionType;
     protected String colour;
     protected int noFolds;
@@ -13,6 +13,10 @@ public abstract class Mask {
         this.price = price;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         return "Models.Mask{" +
@@ -21,5 +25,10 @@ public abstract class Mask {
                 ", noFolds=" + noFolds +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

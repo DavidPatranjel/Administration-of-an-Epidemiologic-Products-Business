@@ -3,6 +3,7 @@ package App;
 import Models.Mask.Mask;
 import Models.Mask.PolycarbonateMask;
 import Models.Mask.SurgicalMask;
+import Models.Order.Acquisition;
 import Models.Person.Client;
 import Models.Sanitizer.BacteriaSanitizer;
 import Models.Sanitizer.FungalSanitizer;
@@ -11,10 +12,8 @@ import Models.Sanitizer.VirusSanitizer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
+
 public final class Reader{
     private static Reader instance;
     private Reader() {}
@@ -54,6 +53,7 @@ public final class Reader{
                 System.out.print("Protection type: "); pt = reader.nextLine();
                 System.out.print("Colour: "); c = reader.nextLine();
                 System.out.print("Number of folds: "); f = reader.nextInt();
+                reader.nextLine();
                 mask = new SurgicalMask(pt, c, f);
             }
             case 2 -> {
@@ -62,6 +62,7 @@ public final class Reader{
                 System.out.print("Protection type: "); pt = reader.nextLine();
                 System.out.print("Colour: "); c = reader.nextLine();
                 System.out.print("Number of folds: "); f = reader.nextInt();
+                reader.nextLine();
                 System.out.print("Grip type: "); g = reader.nextLine();
                 mask = new PolycarbonateMask(pt, c, f, g);
             }
@@ -96,12 +97,14 @@ public final class Reader{
 
                 System.out.print("No organisms killed: "); k = reader.nextInt();
                 System.out.print("No ingerdients: "); n = reader.nextInt();
+                reader.nextLine();
                 System.out.println("Type the " + n + " ingerdients: " );
                 for(int i = 1; i <= n; i++){
                     ing.add(reader.nextLine());
                 }
                 System.out.print("No surfaces: "); m = reader.nextInt();
                 System.out.println("Type the " + m + " surfaces: " );
+                reader.nextLine();
                 for(int i = 1; i <= m; i++){
                     s.add(reader.nextLine());
                 }
@@ -115,11 +118,13 @@ public final class Reader{
                 System.out.print("No organisms killed: "); k = reader.nextInt();
                 System.out.print("No ingerdients: "); n = reader.nextInt();
                 System.out.println("Type the " + n + " ingerdients: " );
+                reader.nextLine();
                 for(int i = 1; i <= n; i++){
                     ing.add(reader.nextLine());
                 }
                 System.out.print("No surfaces: "); m = reader.nextInt();
                 System.out.println("Type the " + m + " surfaces: " );
+                reader.nextLine();
                 for(int i = 1; i <= m; i++){
                     s.add(reader.nextLine());
                 }
@@ -133,11 +138,13 @@ public final class Reader{
                 System.out.print("No organisms killed: "); k = reader.nextInt();
                 System.out.print("No ingerdients: "); n = reader.nextInt();
                 System.out.println("Type the " + n + " ingerdients: " );
+                reader.nextLine();
                 for(int i = 1; i <= n; i++){
                     ing.add(reader.nextLine());
                 }
                 System.out.print("No surfaces: "); m = reader.nextInt();
                 System.out.println("Type the " + m + " surfaces: " );
+                reader.nextLine();
                 for(int i = 1; i <= m; i++){
                     s.add(reader.nextLine());
                 }
@@ -154,13 +161,6 @@ public final class Reader{
         return sanitizer;
     }
 
-    public int readIndex(){
-        Scanner reader = new Scanner(System.in);
-        System.out.print("Give object index: ");
-        int v = reader.nextInt();
-        return v;
-    }
-
     public Client readClient(){
         String n,c,ct,cty,s; int nr;
         Scanner reader = new Scanner(System.in);
@@ -171,10 +171,108 @@ public final class Reader{
         System.out.print("Client Address - city: "); cty = reader.nextLine();
         System.out.print("Client Address - street: "); s = reader.nextLine();
         System.out.print("Client Address - number: "); nr = reader.nextInt();
+        reader.nextLine();
 
-        Client client = new Client(n, c, ct ,cty, s, nr);
-        return client;
+        return new Client(n, c, ct ,cty, s, nr);
     }
+
+    public Acquisition readAcquisition() throws CloneNotSupportedException {
+        Scanner reader = new Scanner(System.in);
+        Client c; Mask[] masks = null; Sanitizer[] sanitizers = null;
+        Acquisition acquisition = null;
+        Service s = Service.getInstance();
+        int index, noMasks, noSanitizers; boolean check = true;
+
+        if(s.getClientsSize() == 0){
+            System.out.println("There are no clients");
+            return null;
+        }
+
+        System.out.println("What is the Client for this acquisition?");
+        s.listClients();
+        do {
+            System.out.print("Please insert the client index: "); index = reader.nextInt();
+            if(index >= 0 && index < s.getClientsSize())
+                check = false;
+            if(check){
+                System.out.println("Not a valid index!");
+            }
+        }while(check);
+        c = new Client(s.getClient(index));
+        System.out.println("Added client index = " + index)
+        ;
+        System.out.print("How many masks do you want to add? "); noMasks = reader.nextInt();
+        for(int i = 1; i <= noMasks; i++){
+            s.listMasks();
+            check = true;
+            do {
+                System.out.print("Please insert the mask index for mask no " + i + ": "); index = reader.nextInt();
+                if(index >= 0 && index < s.getMasksSize())
+                    check = false;
+                if(check){
+                    System.out.println("Not a valid index!");
+                }
+            }while(check);
+
+            Mask newMask = (Mask) s.getMask(index).clone();
+            if (masks == null){
+                masks = new Mask[1];
+                masks[0] = newMask;
+            } else {
+                masks = Arrays.copyOf(masks, masks.length + 1);
+                masks[masks.length - 1] = newMask;
+            }
+            System.out.println("Added mask index = " + index);
+        }
+
+        System.out.print("How many sanitizers do you want to add? "); noSanitizers = reader.nextInt();
+        for(int i = 1; i <= noSanitizers; i++) {
+            s.listSanitizers();
+            check = true;
+            do {
+                System.out.print("Please insert the sanitizer index for sanitizer no " + i + ": ");
+                index = reader.nextInt();
+                if (index >= 0 && index < s.getSanitizersSize())
+                    check = false;
+                if (check) {
+                    System.out.println("Not a valid index!");
+                }
+            } while (check);
+
+            Sanitizer newSanitizer = (Sanitizer) s.getSanitizer(index).clone();
+            if (sanitizers == null) {
+                sanitizers = new Sanitizer[1];
+                sanitizers[0] = newSanitizer;
+            } else {
+                sanitizers = Arrays.copyOf(sanitizers, sanitizers.length + 1);
+                sanitizers[sanitizers.length - 1] = newSanitizer;
+            }
+            System.out.println("Added sanitizer index = " + index);
+        }
+        reader.nextLine();
+
+        Date d = new Date();
+        check = true;
+        String special;
+        do {
+            System.out.print("Is this a special command (Y/N)? "); special = reader.nextLine();
+            if(special.equals("N") || special.equals("Y"))
+                check = false;
+            if(check){
+                System.out.println("Input not valid!");
+            }
+        }while(check);
+
+        if(special.equals("N")){
+            acquisition = new Acquisition(masks, sanitizers, d, c);
+        }else{
+            String descr;
+            System.out.print("What is the description of the special command? "); descr = reader.nextLine();
+            acquisition = new Acquisition(masks, sanitizers, d, c, true, descr);
+        }
+        return acquisition;
+    }
+
 
     public Mask[] readMasksFromFile() throws FileNotFoundException {
         File m1 = new File("Code/src/Files/surgicalmasks.in");
@@ -368,5 +466,35 @@ public final class Reader{
             }
         }
         return false;
+    }
+
+    public int readIndex(){
+        Scanner reader = new Scanner(System.in);
+        System.out.print("Give object index: ");
+        return reader.nextInt();
+    }
+
+    public int readMonth(){
+        Scanner reader = new Scanner(System.in);
+        int ans;
+        System.out.print("Insert month (1-12): "); ans = reader.nextInt();
+        while(!(1 <= ans && ans <= 12)){
+            System.out.println("Input not valid!");
+            System.out.print("Insert month (1-12): "); ans = reader.nextInt();
+        }
+        reader.nextLine();
+        return ans;
+    }
+
+    public int readYear(){
+        Scanner reader = new Scanner(System.in);
+        int ans;
+        System.out.print("Insert year: "); ans = reader.nextInt();
+        while(!(1900 <= ans && ans <= 3000)){
+            System.out.println("Input not valid!");
+            System.out.print("Insert year: "); ans = reader.nextInt();
+        }
+        reader.nextLine();
+        return ans;
     }
 }

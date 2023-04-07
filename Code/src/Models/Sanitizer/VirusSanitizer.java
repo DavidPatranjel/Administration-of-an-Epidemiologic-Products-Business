@@ -32,5 +32,9 @@ public class VirusSanitizer extends Sanitizer{
         return super.equals(other);
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
 

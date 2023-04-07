@@ -1,7 +1,5 @@
-# Administration-of-an-Epidemiologic-Products-Business
+# Administration of an Epidemiologic Products Business
 ## **Etapa 1**
-
-<br>
 
 ### **Tema proiectului**
 Implementarea unui sistem de gestiune al unei firme de produse sanitare epidemiologice (masti si dezinfectanti). Mastile fabricate sunt chirurgicale si din policarbonat, iar dezinfectantii fabricati sunt impotriva bacteriilor, impotriva fungilor sau impotriva virusurilor.
@@ -22,7 +20,6 @@ De asemenea, pentru a calcula eficienta unui dezinfectant se folosesc formulele:
 - Eficienta dez. antiviral = $\frac{No.VirusuriUcise}{TotalVirusuri (=10^8)}$ 
 - Eficienta dez. antifungic = $\frac{No.FungiUcisi}{TotalFungi (=1.5*10^6)}$ 
 
-<br>
 
 ### **Clasele modelului**
 - **clasa Mask**: clasa abstracta folosita ca o baza in crearea celorlalte tipuri de masti.
@@ -50,7 +47,6 @@ In afara de clasele specificate mai sus, programul prezinta si un pachet **App**
 - **clasa Service**: are implementate toate metodele specificate in meniu (Clasa creata folosind un design pattern - singleton).
 - **clasa Reader**: are implementate metodele de citire a datelor de la tastatura in scopul crearii de obiecte noi (Clasa creata folosind un design pattern - singleton).
 
-<br>
 
 ### **Meniul aplicatiei**
 
