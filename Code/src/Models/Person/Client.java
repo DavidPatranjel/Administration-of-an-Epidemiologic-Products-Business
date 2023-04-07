@@ -12,6 +12,11 @@ public class Client {
         this.address = new Address(country, city, street, number);
     }
 
+    public Client(Client c){
+        this.clientName = c.clientName;
+        this.CUI = c.CUI;
+        this.address = new Address(c.address);
+    }
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

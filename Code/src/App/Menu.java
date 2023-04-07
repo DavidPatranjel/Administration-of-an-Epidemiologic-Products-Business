@@ -37,13 +37,13 @@ public final class Menu {
         System.out.println("9. Add a acquisition.");
         System.out.println("10. List all the acquisitions.");
         System.out.println("11. Show income in a given month.");
-        System.out.println("12. Show TVA (19% of income) for a given year.");
+        System.out.println("12. Show VAT (19% of income) for a given year.");
         System.out.println("13. Show all sanitizers sorted desc. by efficiency and asc. by killed organisms.");
         System.out.println("14. Read test input.");
         System.out.println("0. Exit");
         System.out.println("-----------------------------------------------");
     }
-    public void runMenu() throws FileNotFoundException {
+    public void runMenu() throws FileNotFoundException, CloneNotSupportedException {
         Scanner reader = new Scanner(System.in);
         Service service = Service.getInstance();
         Reader objReader = Reader.getInstance();
@@ -54,7 +54,7 @@ public final class Menu {
             textMenu();
             System.out.print("Please insert your option: ");
             op = reader.nextInt();
-            ///reader.nextLine();
+            reader.nextLine();
             System.out.println("-----------------------------------------------");
             switch (op) {
                 case 1 -> {
@@ -82,16 +82,16 @@ public final class Menu {
                     service.listClients();
                 }
                 case 9 -> {
-                    System.out.println("create acquisition");
+                    service.addAcquisition(objReader.readAcquisition());
                 }
                 case 10 -> {
-                    System.out.println("list acquisitions");
+                    service.listAcquisitions();
                 }
                 case 11 -> {
-                    System.out.println("print income/month");
+                    service.incomeDate(objReader.readMonth(), objReader.readYear());
                 }
                 case 12 -> {
-                    System.out.println("print tva/year");
+                    service.VAT(objReader.readYear());
                 }
                 case 13 -> {
                     service.sortedSanitizers();

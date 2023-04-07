@@ -6,6 +6,7 @@ import Models.Person.Client;
 import Models.Order.Acquisition;
 
 import java.util.Arrays;
+import java.util.Calendar;
 
 import static java.util.Arrays.sort;
 
@@ -33,6 +34,42 @@ public final class Service implements CRUD {
         return instance;
     }
 
+    public int getMasksSize() {
+        if(masks == null) return 0;
+        return masks.length;
+    }
+
+    public int getSanitizersSize() {
+        if(sanitizers == null) return 0;
+        return sanitizers.length;
+    }
+
+    public int getClientsSize() {
+        if(clients == null) return 0;
+        return clients.length;
+    }
+
+    public Mask getMask(int index) {
+        if(masks == null) return null;
+        if(index < 0 || index >=  this.getMasksSize()) return null;
+
+        return masks[index];
+    }
+
+    public Sanitizer getSanitizer(int index) {
+        if(sanitizers == null) return null;
+        if(index < 0 || index >=  this.getSanitizersSize()) return null;
+
+        return sanitizers[index];
+    }
+
+    public Client getClient(int index) {
+        if(clients == null) return null;
+        if(index < 0 || index >=  this.getClientsSize()) return null;
+
+        return clients[index];
+    }
+
     public void setMasks(Mask[] masks) {
         this.masks = Arrays.copyOf(masks, masks.length);
     }
@@ -45,9 +82,6 @@ public final class Service implements CRUD {
         this.clients = Arrays.copyOf(clients, clients.length);
     }
 
-    public void setAcquisitions(Acquisition[] acquisitions) {
-        this.acquisitions = Arrays.copyOf(acquisitions, acquisitions.length);
-    }
 
     public void addMask(Mask newMask){
         if(newMask == null){
@@ -183,6 +217,80 @@ public final class Service implements CRUD {
             }
         }
     }
+
+    public void addAcquisition(Acquisition newAcquisition){
+        if(newAcquisition == null){
+            System.out.println("Error in creating acquisition!");
+            return;
+        }
+
+        if (acquisitions == null){
+            acquisitions = new Acquisition[1];
+            acquisitions[0] = newAcquisition;
+        } else {
+            acquisitions = Arrays.copyOf(acquisitions, acquisitions.length + 1);
+            acquisitions[acquisitions.length - 1] = newAcquisition;
+        }
+        System.out.println("You added a new acquisition successfully.");
+    }
+    public void listAcquisitions(){
+        if (acquisitions == null){
+            System.out.println("There are no acquisitions.");
+        }else {
+            int k = 0;
+            System.out.println("Here are all the acquisitions.");
+            for (Acquisition a : acquisitions) {
+                System.out.println(k++ + ")" + a);
+            }
+        }
+    }
+
+    public void incomeDate(int month, int year){
+        double totalIncome = 0;
+        Calendar cal = Calendar.getInstance();
+
+        if(acquisitions == null){
+            System.out.println("There are no acquisitions yet!");
+            return;
+        }
+
+        for(Acquisition acquisition : acquisitions) {
+            cal.setTime(acquisition.getDate());
+            int acquisitionMonth = cal.get(Calendar.MONTH) + 1;
+            int acquisitionYear = cal.get(Calendar.YEAR);
+
+            if(acquisitionMonth == month && acquisitionYear == year) {
+                totalIncome += acquisition.getTotalPrice();
+            }
+        }
+
+        System.out.println("Total income for month = " + month + ", year = " + year + " = " + totalIncome);
+    }
+
+    public void VAT(int year){
+        double vat = 0;
+        Calendar cal = Calendar.getInstance();
+
+        if(acquisitions == null){
+            System.out.println("There are no acquisitions yet!");
+            return;
+        }
+
+        for(Acquisition acquisition : acquisitions) {
+            cal.setTime(acquisition.getDate());
+            int acquisitionYear = cal.get(Calendar.YEAR);
+
+            if(acquisitionYear == year) {
+                vat += acquisition.getTotalPrice();
+            }
+        }
+
+        vat = vat * 0.19;
+
+        System.out.println("Total VAT in the year = " + year + " = " + vat);
+    }
+
+
 
     public void sortedSanitizers(){
         if(sanitizers == null){

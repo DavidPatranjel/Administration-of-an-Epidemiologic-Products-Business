@@ -30,4 +30,9 @@ public class SurgicalMask extends Mask {
                 ", price=" + price +
                 '}';
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

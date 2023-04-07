@@ -31,4 +31,9 @@ public class FungalSanitizer extends Sanitizer{
         FungalSanitizer other = (FungalSanitizer) obj;
         return super.equals(other);
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
