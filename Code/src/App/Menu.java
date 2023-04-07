@@ -34,7 +34,7 @@ public final class Menu {
         System.out.println("6. Delete a sanitizer.");
         System.out.println("7. Add a client.");
         System.out.println("8. List all the clients.");
-        System.out.println("9. Add a acquisition.");
+        System.out.println("9. Add an acquisition.");
         System.out.println("10. List all the acquisitions.");
         System.out.println("11. Show income in a given month.");
         System.out.println("12. Show VAT (19% of income) for a given year.");

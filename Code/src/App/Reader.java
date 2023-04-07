@@ -45,7 +45,7 @@ public final class Reader{
         Mask mask;
         typeOfMasks();
         op = reader.nextInt();
-
+        reader.nextLine();
         switch (op) {
             case 1 -> {
                 String pt, c;
@@ -198,58 +198,68 @@ public final class Reader{
                 System.out.println("Not a valid index!");
             }
         }while(check);
-        c = new Client(s.getClient(index));
-        System.out.println("Added client index = " + index)
-        ;
-        System.out.print("How many masks do you want to add? "); noMasks = reader.nextInt();
-        for(int i = 1; i <= noMasks; i++){
-            s.listMasks();
-            check = true;
-            do {
-                System.out.print("Please insert the mask index for mask no " + i + ": "); index = reader.nextInt();
-                if(index >= 0 && index < s.getMasksSize())
-                    check = false;
-                if(check){
-                    System.out.println("Not a valid index!");
-                }
-            }while(check);
-
-            Mask newMask = (Mask) s.getMask(index).clone();
-            if (masks == null){
-                masks = new Mask[1];
-                masks[0] = newMask;
-            } else {
-                masks = Arrays.copyOf(masks, masks.length + 1);
-                masks[masks.length - 1] = newMask;
-            }
-            System.out.println("Added mask index = " + index);
-        }
-
-        System.out.print("How many sanitizers do you want to add? "); noSanitizers = reader.nextInt();
-        for(int i = 1; i <= noSanitizers; i++) {
-            s.listSanitizers();
-            check = true;
-            do {
-                System.out.print("Please insert the sanitizer index for sanitizer no " + i + ": ");
-                index = reader.nextInt();
-                if (index >= 0 && index < s.getSanitizersSize())
-                    check = false;
-                if (check) {
-                    System.out.println("Not a valid index!");
-                }
-            } while (check);
-
-            Sanitizer newSanitizer = (Sanitizer) s.getSanitizer(index).clone();
-            if (sanitizers == null) {
-                sanitizers = new Sanitizer[1];
-                sanitizers[0] = newSanitizer;
-            } else {
-                sanitizers = Arrays.copyOf(sanitizers, sanitizers.length + 1);
-                sanitizers[sanitizers.length - 1] = newSanitizer;
-            }
-            System.out.println("Added sanitizer index = " + index);
-        }
         reader.nextLine();
+        c = new Client(s.getClient(index));
+        System.out.println("Added client index = " + index);
+
+        if(s.getMasksSize() == 0) System.out.println("There are no masks to be added");
+        else {
+            System.out.print("How many masks do you want to add? ");
+            noMasks = reader.nextInt();
+            for (int i = 1; i <= noMasks; i++) {
+                s.listMasks();
+                check = true;
+                do {
+                    System.out.print("Please insert the mask index for mask no " + i + ": ");
+                    index = reader.nextInt();
+                    if (index >= 0 && index < s.getMasksSize())
+                        check = false;
+                    if (check) {
+                        System.out.println("Not a valid index!");
+                    }
+                } while (check);
+
+                Mask newMask = (Mask) s.getMask(index).clone();
+                if (masks == null) {
+                    masks = new Mask[1];
+                    masks[0] = newMask;
+                } else {
+                    masks = Arrays.copyOf(masks, masks.length + 1);
+                    masks[masks.length - 1] = newMask;
+                }
+                System.out.println("Added mask index = " + index);
+            }
+        }
+
+        if(s.getSanitizersSize() == 0) System.out.println("There are no sanitizers to be added");
+        else {
+            System.out.print("How many sanitizers do you want to add? ");
+            noSanitizers = reader.nextInt();
+            for (int i = 1; i <= noSanitizers; i++) {
+                s.listSanitizers();
+                check = true;
+                do {
+                    System.out.print("Please insert the sanitizer index for sanitizer no " + i + ": ");
+                    index = reader.nextInt();
+                    if (index >= 0 && index < s.getSanitizersSize())
+                        check = false;
+                    if (check) {
+                        System.out.println("Not a valid index!");
+                    }
+                } while (check);
+
+                Sanitizer newSanitizer = (Sanitizer) s.getSanitizer(index).clone();
+                if (sanitizers == null) {
+                    sanitizers = new Sanitizer[1];
+                    sanitizers[0] = newSanitizer;
+                } else {
+                    sanitizers = Arrays.copyOf(sanitizers, sanitizers.length + 1);
+                    sanitizers[sanitizers.length - 1] = newSanitizer;
+                }
+                System.out.println("Added sanitizer index = " + index);
+            }
+            reader.nextLine();
+        }
 
         Date d = new Date();
         check = true;
