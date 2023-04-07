@@ -68,6 +68,8 @@ Here are all the actions you can choose from:
 10. List all the acquisitions.
 11. Show income in a given month.
 12. Show TVA (19% of income) for a given year.
+13. Show all sanitizers sorted desc. by efficiency and asc. by killed organisms.
+14. Read test input.
 0. Exit
 -----------------------------------
 ```
