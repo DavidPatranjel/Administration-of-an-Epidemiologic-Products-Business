@@ -23,20 +23,34 @@ public class Acquisition {
 
     public Acquisition(Mask[] masks, Sanitizer[] sanitizers, Date date,
                        Client client, Boolean specialOrder, String specialOrderDescription) {
-        this.masks = Arrays.copyOf(masks, masks.length);
-        this.sanitizers = Arrays.copyOf(sanitizers, sanitizers.length);
+        if(masks == null)
+            this.masks = null;
+        else
+            this.masks = Arrays.copyOf(masks, masks.length);
+
+        if(sanitizers == null)
+            this.sanitizers = null;
+        else
+            this.sanitizers = Arrays.copyOf(sanitizers, sanitizers.length);
+
         this.date = date;
         this.client = new Client(client);
         this.specialOrder = specialOrder;
         this.specialOrderDescription = specialOrderDescription;
 
         double s = 0;
-        for(Mask m:masks){
-            s += m.getPrice();
+        if(masks != null) {
+            for (Mask m : masks) {
+                s += m.getPrice();
+            }
         }
-        for(Sanitizer san:sanitizers){
-            s += san.getPrice();
+
+        if(sanitizers != null) {
+            for (Sanitizer san : sanitizers) {
+                s += san.getPrice();
+            }
         }
+
         if(specialOrder){
             s = s * 1.5;
         }
@@ -46,19 +60,34 @@ public class Acquisition {
 
     public Acquisition(Mask[] masks, Sanitizer[] sanitizers, Date date,
                        Client client) {
-        this.masks = Arrays.copyOf(masks, masks.length);
-        this.sanitizers = Arrays.copyOf(sanitizers, sanitizers.length);
+
+
+        if(masks == null)
+            this.masks = null;
+        else
+            this.masks = Arrays.copyOf(masks, masks.length);
+
+        if(sanitizers == null)
+            this.sanitizers = null;
+        else
+            this.sanitizers = Arrays.copyOf(sanitizers, sanitizers.length);
+
         this.date = date;
         this.client = new Client(client);
         this.specialOrder = false;
         this.specialOrderDescription = "";
 
         double s = 0;
-        for(Mask m:masks){
-            s += m.getPrice();
+        if(masks != null) {
+            for (Mask m : masks) {
+                s += m.getPrice();
+            }
         }
-        for(Sanitizer san:sanitizers){
-            s += san.getPrice();
+
+        if(sanitizers != null) {
+            for (Sanitizer san : sanitizers) {
+                s += san.getPrice();
+            }
         }
 
         this.totalPrice = s;
@@ -77,12 +106,16 @@ public class Acquisition {
         StringBuilder stringMaskBuilder = new StringBuilder();
         StringBuilder stringSanitizersBuilder = new StringBuilder();
 
-        for(Mask m : masks) {
-            stringMaskBuilder.append(m.toString() + "\n");
+        if(masks != null) {
+            for (Mask m : masks) {
+                stringMaskBuilder.append(m.toString() + "\n");
+            }
         }
 
-        for(Sanitizer s : sanitizers) {
-            stringSanitizersBuilder.append(s.toString() + "\n");
+        if(sanitizers != null) {
+            for (Sanitizer s : sanitizers) {
+                stringSanitizersBuilder.append(s.toString() + "\n");
+            }
         }
 
         String stringMask = stringMaskBuilder.toString();
