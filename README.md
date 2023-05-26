@@ -60,18 +60,21 @@ ADMINISTRATION OF AN EPIDEMIC PRODUCTS BUSINESS - DAVID PATRANJEL 251
 Here are all the actions you can choose from:
 1. Add a mask.
 2. List all the masks.
-3. Delete a mask.
-4. Add a sanitizer.
-5. List all the sanitizers.
-6. Delete a sanitizer.
-7. Add a client.
-8. List all the clients.
-9. Add a acquisition.
-10. List all the acquisitions.
-11. Show income in a given month.
-12. Show TVA (19% of income) for a given year.
-13. Show all sanitizers sorted desc. by efficiency and asc. by killed organisms.
-14. Read test input.
-0. Exit
+3. Show a mask by ID.
+4. Delete a mask.
+5. Add a sanitizer.
+6. List all the sanitizers.
+7. Show a sanitizer by ID.
+8. Delete a sanitizer.
+9. Add a client.
+10. List all the clients.
+11. Update a client.
+12. Add an acquisition.
+13. List all the acquisitions.
+14. Show income in a given month.
+15. Show VAT (19% of income) for a given year.
+16. Show all sanitizers sorted desc. by efficiency and asc. by killed organisms.
+17. Create tables.
+0. Exit.
 -----------------------------------
 ```
