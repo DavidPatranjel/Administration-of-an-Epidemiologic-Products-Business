@@ -36,7 +36,7 @@ public class Acquisition {
         else
             this.bcSanitizersIds = Arrays.copyOf(bcsanitizers, bcsanitizers.length);
 
-        if(pcmasks == null)
+        if(fgsanitizers == null)
             this.fgSanitizersIds = null;
         else
             this.fgSanitizersIds = Arrays.copyOf(fgsanitizers, fgsanitizers.length);

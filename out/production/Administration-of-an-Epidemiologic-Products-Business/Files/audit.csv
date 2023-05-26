@@ -1,12 +1,38 @@
 Log,Date-time
-Open connection with database,2023-05-26 03:56:33
-Close connection with database,2023-05-26 03:56:33
-Open connection with database,2023-05-26 03:56:46
-The client and address were updated,2023-05-26 03:56:46
-Close connection with database,2023-05-26 03:56:46
-Open connection with database,2023-05-26 03:56:57
-Printed all Clients,2023-05-26 03:56:57
-Close connection with database,2023-05-26 03:56:57
-Open connection with database,2023-05-26 03:57:12
-Close connection with database,2023-05-26 03:57:12
-Printed all Bacteria Sanitizers,2023-05-26 03:57:12
+Open connection with database,2023-05-26 16:34:12
+Close connection with database,2023-05-26 16:34:12
+Showed Surgical Mask with given ID,2023-05-26 16:34:12
+Open connection with database,2023-05-26 16:34:25
+Close connection with database,2023-05-26 16:34:25
+Open connection with database,2023-05-26 16:34:25
+Printed all Clients,2023-05-26 16:34:25
+Close connection with database,2023-05-26 16:34:25
+Open connection with database,2023-05-26 16:37:23
+Printed all Polycarbonate Masks,2023-05-26 16:37:23
+Close connection with database,2023-05-26 16:37:23
+Open connection with database,2023-05-26 16:37:23
+Printed all Surgical Masks,2023-05-26 16:37:23
+Close connection with database,2023-05-26 16:37:23
+Open connection with database,2023-05-26 16:37:26
+Close connection with database,2023-05-26 16:37:26
+Printed all Bacteria Sanitizers,2023-05-26 16:37:26
+Open connection with database,2023-05-26 16:37:26
+Close connection with database,2023-05-26 16:37:26
+Printed all Fungal Sanitizers,2023-05-26 16:37:26
+Open connection with database,2023-05-26 16:37:26
+Close connection with database,2023-05-26 16:37:26
+Printed all Virus Sanitizers,2023-05-26 16:37:26
+Open connection with database,2023-05-26 16:37:35
+Close connection with database,2023-05-26 16:37:35
+Added new Acquisition,2023-05-26 16:37:35
+Open connection with database,2023-05-26 16:37:46
+Close connection with database,2023-05-26 16:37:46
+Printed all Bacteria Sanitizers,2023-05-26 16:37:46
+Open connection with database,2023-05-26 16:38:03
+Called total income in a given year and month,2023-05-26 16:38:03
+Close connection with database,2023-05-26 16:38:58
+Open connection with database,2023-05-26 16:38:58
+Close connection with database,2023-05-26 16:38:58
+Open connection with database,2023-05-26 16:38:58
+Close connection with database,2023-05-26 16:38:58
+Got all sanitizers from the DB,2023-05-26 16:38:58
