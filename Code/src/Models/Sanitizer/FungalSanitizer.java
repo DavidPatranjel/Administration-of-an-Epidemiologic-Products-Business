@@ -2,7 +2,7 @@ package Models.Sanitizer;
 
 import java.util.Set;
 
-public class FungalSanitizer extends Sanitizer{
+public final class FungalSanitizer extends Sanitizer{
     private final static double totalFungi = 15 * (1e5);
 
     public FungalSanitizer(int noKilledOrganisms, Set<String> ingredients, Set<String> surfaces) {

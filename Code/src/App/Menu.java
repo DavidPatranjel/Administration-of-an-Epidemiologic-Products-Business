@@ -1,5 +1,5 @@
 package App;
-import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public final class Menu {
@@ -28,22 +28,26 @@ public final class Menu {
         System.out.println("Here are all the actions you can choose from:");
         System.out.println("1. Add a mask.");
         System.out.println("2. List all the masks.");
-        System.out.println("3. Delete a mask.");
-        System.out.println("4. Add a sanitizer.");
-        System.out.println("5. List all the sanitizers.");
-        System.out.println("6. Delete a sanitizer.");
-        System.out.println("7. Add a client.");
-        System.out.println("8. List all the clients.");
-        System.out.println("9. Add an acquisition.");
-        System.out.println("10. List all the acquisitions.");
-        System.out.println("11. Show income in a given month.");
-        System.out.println("12. Show VAT (19% of income) for a given year.");
-        System.out.println("13. Show all sanitizers sorted desc. by efficiency and asc. by killed organisms.");
-        System.out.println("14. Read test input.");
+        System.out.println("3. Show a mask by ID.");
+        System.out.println("4. Delete a mask.");
+        System.out.println("5. Add a sanitizer.");
+        System.out.println("6. List all the sanitizers.");
+        System.out.println("7. Show a sanitizer by ID.");
+        System.out.println("8. Delete a sanitizer.");
+        System.out.println("9. Add a client.");
+        System.out.println("10. List all the clients.");
+        System.out.println("11. Update a client.");
+        System.out.println("12. Add an acquisition.");
+        System.out.println("13. List all the acquisitions.");
+        System.out.println("14. Show income in a given month.");
+        System.out.println("15. Show VAT (19% of income) for a given year.");
+        System.out.println("16. Show all sanitizers sorted desc. by efficiency and asc. by killed organisms.");
+        System.out.println("17. Create tables.");
+        ///System.out.println("18. Print all local data.");
         System.out.println("0. Exit");
         System.out.println("-----------------------------------------------");
     }
-    public void runMenu() throws FileNotFoundException, CloneNotSupportedException {
+    public void runMenu(){
         Scanner reader = new Scanner(System.in);
         Service service = Service.getInstance();
         Reader objReader = Reader.getInstance();
@@ -57,52 +61,44 @@ public final class Menu {
             reader.nextLine();
             System.out.println("-----------------------------------------------");
             switch (op) {
-                case 1 -> {
-                    service.addMask(objReader.readMask());
-                }
-                case 2 -> {
-                    service.listMasks();
-                }
-                case 3-> {
-                    service.deleteMask(objReader.readIndex());
-                }
-                case 4 -> {
-                    service.addSanitizer(objReader.readSanitizer());
-                }
-                case 5 -> {
-                    service.listSanitizers();
-                }
-                case 6 -> {
-                    service.deleteSanitizer(objReader.readIndex());
-                }
-                case 7 -> {
-                    service.addClient(objReader.readClient());
-                }
-                case 8 -> {
-                    service.listClients();
-                }
-                case 9 -> {
-                    service.addAcquisition(objReader.readAcquisition());
-                }
-                case 10 -> {
-                    service.listAcquisitions();
-                }
+                case 1 -> service.addMask(objReader.readMask());
+                case 2 -> service.listMasks();
+                case 3-> service.showMask(objReader.showMask());
+                case 4-> service.deleteMask(objReader.deleteMask());
+                case 5 -> service.addSanitizer(objReader.readSanitizer());
+                case 6 -> service.listSanitizers();
+                case 7 -> service.showSanitizer(objReader.showSanitizer());
+                case 8 -> service.deleteSanitizer(objReader.deleteSanitizer());
+                case 9 -> service.addClient(objReader.readClient());
+                case 10 -> service.listClients();
                 case 11 -> {
-                    service.incomeDate(objReader.readMonth(), objReader.readYear());
+                    try{
+                    service.updateClient(objReader.getIndexForUpdate(), objReader.readClient());
+                    }catch (InputMismatchException e){
+                        System.out.println("Invalid input!");
+                    }
                 }
-                case 12 -> {
-                    service.VAT(objReader.readYear());
-                }
-                case 13 -> {
-                    service.sortedSanitizers();
-                }
+                case 12 -> service.addAcquisition(objReader.readAcquisition());
+                case 13 -> service.listAcquisitions();
                 case 14 -> {
-                    service.setMasks(objReader.readMasksFromFile());
-                    service.setSanitizers(objReader.readSanitizerFromFile());
-                    service.setClients(objReader.readClientsFromFile());
-                    System.out.println("All the data has been read from the files.");
+                    try {
+                        service.incomeDate(objReader.readMonth(), objReader.readYear());
+                    }catch (InputMismatchException e){
+                        System.out.println("Invalid input!");
+                    }
                 }
+                case 15 -> {
+                    try{
+                        service.VAT(objReader.readYear());
+                    }catch (InputMismatchException e){
+                        System.out.println("Invalid input!");
+                    }
+                }
+                case 16 -> service.sortedSanitizers();
+                case 17-> service.configureTables();
+                ///case 18 -> service.printLocalData();
                 case 0 -> {
+                    service.closeConnection();
                     System.out.println("You left the app. Goodbye!");
                 }
 

@@ -1,5 +1,5 @@
 package Models.Mask;
-public class PolycarbonateMask extends Mask {
+public final class PolycarbonateMask extends Mask {
     private String gripType;
 
     public PolycarbonateMask(String protectionType, String colour, int noFolds, String gripType) {
@@ -31,5 +31,7 @@ public class PolycarbonateMask extends Mask {
         '}';
     }
 
-
+    public String getGripType() {
+        return gripType;
+    }
 }
