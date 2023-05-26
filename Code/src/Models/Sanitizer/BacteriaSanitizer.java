@@ -2,7 +2,7 @@ package Models.Sanitizer;
 
 import java.util.Set;
 
-public class BacteriaSanitizer extends Sanitizer{
+public final class BacteriaSanitizer extends Sanitizer{
     private final static double totalBacteria = 1e9;
 
     public BacteriaSanitizer(int noKilledOrganisms, Set<String> ingredients, Set<String> surfaces) {

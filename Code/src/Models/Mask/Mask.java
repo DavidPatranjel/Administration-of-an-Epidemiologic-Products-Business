@@ -1,6 +1,6 @@
 package Models.Mask;
 
-public abstract class Mask implements Cloneable{
+public abstract sealed class Mask implements Cloneable permits PolycarbonateMask, SurgicalMask{
     protected String protectionType;
     protected String colour;
     protected int noFolds;
@@ -30,5 +30,17 @@ public abstract class Mask implements Cloneable{
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public String getProtectionType() {
+        return protectionType;
+    }
+
+    public String getColour() {
+        return colour;
+    }
+
+    public int getNoFolds() {
+        return noFolds;
     }
 }

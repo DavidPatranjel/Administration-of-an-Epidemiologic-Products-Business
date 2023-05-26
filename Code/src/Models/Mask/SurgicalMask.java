@@ -1,8 +1,7 @@
 package Models.Mask;
 
-import java.util.Objects;
 
-public class SurgicalMask extends Mask {
+public final class SurgicalMask extends Mask {
 
     public SurgicalMask(String protectionType, String colour, int noFolds) {
         super(protectionType, colour, noFolds, 10);
@@ -35,4 +34,5 @@ public class SurgicalMask extends Mask {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
 }

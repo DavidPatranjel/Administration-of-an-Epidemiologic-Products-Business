@@ -1,53 +1,85 @@
 package Models.Order;
 
-import App.CRUD;
-import Models.Mask.Mask;
-import Models.Person.Client;
-import Models.Sanitizer.Sanitizer;
+import App.DataDictionary;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
 public class Acquisition {
-    final private Mask[] masks;
-    final private Sanitizer[] sanitizers;
-
+    final private Integer[] sgMasksIds;
+    final private Integer[] pcMasksIds;
+    final private Integer[] bcSanitizersIds;
+    final private Integer[] fgSanitizersIds;
+    final private Integer[] vsSanitizersIds;
+    final private int clientId;
     final private double totalPrice;
     final private Date date;
-
-    final private Client client;
     final private Boolean specialOrder;
     final private String specialOrderDescription;
-    final static private SimpleDateFormat dateForm = new SimpleDateFormat("EEE, MMM d, ''yy");
+    private DataDictionary dataDictionary = DataDictionary.getInstance();
 
-    public Acquisition(Mask[] masks, Sanitizer[] sanitizers, Date date,
-                       Client client, Boolean specialOrder, String specialOrderDescription) {
-        if(masks == null)
-            this.masks = null;
+    public Acquisition(Integer[] sgmasks, Integer[] pcmasks, Integer[] bcsanitizers, Integer[] fgsanitizers, Integer[] vssanitizers, int clientId,
+                       Date date, Boolean specialOrder, String specialOrderDescription) {
+
+        if(sgmasks == null)
+            this.sgMasksIds = null;
         else
-            this.masks = Arrays.copyOf(masks, masks.length);
+            this.sgMasksIds = Arrays.copyOf(sgmasks, sgmasks.length);
 
-        if(sanitizers == null)
-            this.sanitizers = null;
+        if(pcmasks == null)
+            this.pcMasksIds = null;
         else
-            this.sanitizers = Arrays.copyOf(sanitizers, sanitizers.length);
+            this.pcMasksIds = Arrays.copyOf(pcmasks, pcmasks.length);
 
+        if(bcsanitizers == null)
+            this.bcSanitizersIds = null;
+        else
+            this.bcSanitizersIds = Arrays.copyOf(bcsanitizers, bcsanitizers.length);
+
+        if(pcmasks == null)
+            this.fgSanitizersIds = null;
+        else
+            this.fgSanitizersIds = Arrays.copyOf(fgsanitizers, fgsanitizers.length);
+
+        if(vssanitizers == null)
+            this.vsSanitizersIds = null;
+        else
+            this.vsSanitizersIds = Arrays.copyOf(vssanitizers, vssanitizers.length);
+
+
+        this.clientId = clientId;
         this.date = date;
-        this.client = new Client(client);
         this.specialOrder = specialOrder;
         this.specialOrderDescription = specialOrderDescription;
 
         double s = 0;
-        if(masks != null) {
-            for (Mask m : masks) {
-                s += m.getPrice();
+        if(sgmasks != null) {
+            for (int id : sgmasks) {
+                s += dataDictionary.getSurgicalMasksPrice(id);
             }
         }
 
-        if(sanitizers != null) {
-            for (Sanitizer san : sanitizers) {
-                s += san.getPrice();
+        if(pcmasks != null) {
+            for (int id : pcmasks) {
+                s += dataDictionary.getPolycarbonateMasksPrice(id);
+            }
+        }
+
+        if(bcsanitizers != null) {
+            for (int id : bcsanitizers) {
+                s += dataDictionary.getBacterialSanitizersPrice(id);
+            }
+        }
+
+        if(fgsanitizers != null) {
+            for (int id : fgsanitizers) {
+                s += dataDictionary.getFungalSanitizersPrice(id);
+            }
+        }
+
+        if(vssanitizers != null) {
+            for (int id : vssanitizers) {
+                s += dataDictionary.getVirusSanitizersPrice(id);
             }
         }
 
@@ -58,76 +90,122 @@ public class Acquisition {
         this.totalPrice = s;
     }
 
-    public Acquisition(Mask[] masks, Sanitizer[] sanitizers, Date date,
-                       Client client) {
-
-
-        if(masks == null)
-            this.masks = null;
+    public Acquisition(Integer[] sgmasks, Integer[] pcmasks, Integer[] bcsanitizers, Integer[] fgsanitizers, Integer[] vssanitizers, int clientId, Date date) {
+        if(sgmasks == null)
+            this.sgMasksIds = null;
         else
-            this.masks = Arrays.copyOf(masks, masks.length);
+            this.sgMasksIds = Arrays.copyOf(sgmasks, sgmasks.length);
 
-        if(sanitizers == null)
-            this.sanitizers = null;
+        if(pcmasks == null)
+            this.pcMasksIds = null;
         else
-            this.sanitizers = Arrays.copyOf(sanitizers, sanitizers.length);
+            this.pcMasksIds = Arrays.copyOf(pcmasks, pcmasks.length);
 
+        if(bcsanitizers == null)
+            this.bcSanitizersIds = null;
+        else
+            this.bcSanitizersIds = Arrays.copyOf(bcsanitizers, bcsanitizers.length);
+
+        if(pcmasks == null)
+            this.fgSanitizersIds = null;
+        else
+            this.fgSanitizersIds = Arrays.copyOf(fgsanitizers, fgsanitizers.length);
+
+        if(vssanitizers == null)
+            this.vsSanitizersIds = null;
+        else
+            this.vsSanitizersIds = Arrays.copyOf(vssanitizers, vssanitizers.length);
+
+        this.clientId = clientId;
         this.date = date;
-        this.client = new Client(client);
         this.specialOrder = false;
         this.specialOrderDescription = "";
 
         double s = 0;
-        if(masks != null) {
-            for (Mask m : masks) {
-                s += m.getPrice();
+        if(sgmasks != null) {
+            for (int id : sgmasks) {
+                s += dataDictionary.getSurgicalMasksPrice(id);
             }
         }
 
-        if(sanitizers != null) {
-            for (Sanitizer san : sanitizers) {
-                s += san.getPrice();
+        if(pcmasks != null) {
+            for (int id : pcmasks) {
+                s += dataDictionary.getPolycarbonateMasksPrice(id);
+            }
+        }
+
+        if(bcsanitizers != null) {
+            for (int id : bcsanitizers) {
+                s += dataDictionary.getBacterialSanitizersPrice(id);
+            }
+        }
+
+        if(fgsanitizers != null) {
+            for (int id : fgsanitizers) {
+                s += dataDictionary.getFungalSanitizersPrice(id);
+            }
+        }
+
+        if(vssanitizers != null) {
+            for (int id : vssanitizers) {
+                s += dataDictionary.getVirusSanitizersPrice(id);
             }
         }
 
         this.totalPrice = s;
     }
 
-    public Date getDate() {
-        return date;
+    public Integer[] getSgMasksIds(){
+        if(sgMasksIds==null)
+            return null;
+        return Arrays.copyOf(sgMasksIds, sgMasksIds.length);
+    }
+
+    public Integer[] getPcMasksIds() {
+        if(pcMasksIds==null)
+            return null;
+        return Arrays.copyOf(pcMasksIds, pcMasksIds.length);
+    }
+
+
+    public Integer[] getBcSanitizersIds() {
+        if(bcSanitizersIds == null)
+            return null;
+        return Arrays.copyOf(bcSanitizersIds, bcSanitizersIds.length);
+    }
+
+    public Integer[] getFgSanitizersIds() {
+
+        if(fgSanitizersIds == null)
+            return null;
+        return Arrays.copyOf(fgSanitizersIds, fgSanitizersIds.length);
+    }
+
+    public Integer[] getVsSanitizersIds() {
+        if(vsSanitizersIds == null)
+            return null;
+        return Arrays.copyOf(vsSanitizersIds, vsSanitizersIds.length);
+    }
+
+    public int getClientId() {
+        return clientId;
     }
 
     public double getTotalPrice() {
         return totalPrice;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder stringMaskBuilder = new StringBuilder();
-        StringBuilder stringSanitizersBuilder = new StringBuilder();
-
-        if(masks != null) {
-            for (Mask m : masks) {
-                stringMaskBuilder.append(m.toString() + "\n");
-            }
-        }
-
-        if(sanitizers != null) {
-            for (Sanitizer s : sanitizers) {
-                stringSanitizersBuilder.append(s.toString() + "\n");
-            }
-        }
-
-        String stringMask = stringMaskBuilder.toString();
-        String stringSanitizers = stringSanitizersBuilder.toString();
-
-        return "Acquisition - " + dateForm.format(date) + "\n" +
-                "Total Price =" + totalPrice + "\n" +
-                "Masks\n" + stringMask +
-                "Sanitizers\n" + stringSanitizers +
-                "Client\n" + client + "\n" +
-                "SpecialOrder=" + specialOrder +
-                ", " + specialOrderDescription + "\n" +
-                "------------------\n";
+    public Date getDate() {
+        return date;
     }
+
+    public Boolean getSpecialOrder() {
+        return specialOrder;
+    }
+
+    public String getSpecialOrderDescription() {
+        return specialOrderDescription;
+    }
+
+
 }

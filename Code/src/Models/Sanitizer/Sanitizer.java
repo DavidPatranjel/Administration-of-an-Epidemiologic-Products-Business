@@ -2,7 +2,7 @@ package Models.Sanitizer;
 
 import java.util.Set;
 
-public abstract class Sanitizer implements Comparable<Sanitizer>, Cloneable{
+public abstract sealed class Sanitizer implements Comparable<Sanitizer>, Cloneable permits BacteriaSanitizer, FungalSanitizer, VirusSanitizer{
     protected int noKilledOrganisms;
     protected Set<String> ingredients;
     protected Set<String> surfaces;
@@ -31,6 +31,22 @@ public abstract class Sanitizer implements Comparable<Sanitizer>, Cloneable{
 
     public double getPrice() {
         return price;
+    }
+
+    public int getNoKilledOrganisms() {
+        return noKilledOrganisms;
+    }
+
+    public Set<String> getIngredients() {
+        return ingredients;
+    }
+
+    public Set<String> getSurfaces() {
+        return surfaces;
+    }
+
+    public double getEfficiency() {
+        return efficiency;
     }
 
     @Override

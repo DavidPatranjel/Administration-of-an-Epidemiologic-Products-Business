@@ -4,19 +4,23 @@ import Models.Mask.Mask;
 import Models.Sanitizer.Sanitizer;
 import Models.Person.Client;
 import Models.Order.Acquisition;
+import Repositories.AcquisitionRepository;
+import Repositories.ClientRepository;
+import Repositories.MaskRepository;
+import Repositories.SanitizerRepository;
 
-import java.util.Arrays;
-import java.util.Calendar;
+import java.io.IOException;
+import java.util.InputMismatchException;
 
 import static java.util.Arrays.sort;
-
 public final class Service implements CRUD {
-    private Mask[] masks;
-    private Sanitizer[] sanitizers;
-    private Client[] clients;
-    private Acquisition[] acquisitions;
+    private ClientRepository clientRepository = ClientRepository.getInstance();
+    private MaskRepository maskRepository = MaskRepository.getInstance();
+    private SanitizerRepository sanitizerRepository = SanitizerRepository.getInstance();
+    private AcquisitionRepository acquisitionRepository = AcquisitionRepository.getInstance();
+    private Audit audit = Audit.getInstance();
     private static Service instance;
-    private Service() {}
+    private Service() { }
 
     // static block initialization for exception handling
     static {
@@ -33,278 +37,170 @@ public final class Service implements CRUD {
         }
         return instance;
     }
-
-    public int getMasksSize() {
-        if(masks == null) return 0;
-        return masks.length;
+    public void configureTables()
+    {
+        clientRepository.createTable();
+        maskRepository.createTable();
+        sanitizerRepository.createTable();
+        acquisitionRepository.createTable();
+        try
+        {
+            audit.logAction("configure tables");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
-
-    public int getSanitizersSize() {
-        if(sanitizers == null) return 0;
-        return sanitizers.length;
+    public void printLocalData(){
+        DataDictionary.getInstance().printAllData();
     }
-
-    public int getClientsSize() {
-        if(clients == null) return 0;
-        return clients.length;
-    }
-
-    public Mask getMask(int index) {
-        if(masks == null) return null;
-        if(index < 0 || index >=  this.getMasksSize()) return null;
-
-        return masks[index];
-    }
-
-    public Sanitizer getSanitizer(int index) {
-        if(sanitizers == null) return null;
-        if(index < 0 || index >=  this.getSanitizersSize()) return null;
-
-        return sanitizers[index];
-    }
-
-    public Client getClient(int index) {
-        if(clients == null) return null;
-        if(index < 0 || index >=  this.getClientsSize()) return null;
-
-        return clients[index];
-    }
-
-    public void setMasks(Mask[] masks) {
-        this.masks = Arrays.copyOf(masks, masks.length);
-    }
-
-    public void setSanitizers(Sanitizer[] sanitizers) {
-        this.sanitizers = Arrays.copyOf(sanitizers, sanitizers.length);
-    }
-
-    public void setClients(Client[] clients) {
-        this.clients = Arrays.copyOf(clients, clients.length);
-    }
-
 
     public void addMask(Mask newMask){
-        if(newMask == null){
-            System.out.println("Error in creating mask!");
-            return;
-        }
-
-        if (masks == null){
-            masks = new Mask[1];
-            masks[0] = newMask;
-        } else {
-            for (Mask a : masks){
-                if (a.equals(newMask)){
-                    System.out.println("This mask already exists.");
-                    return;
-                }
-            }
-            masks = Arrays.copyOf(masks, masks.length + 1);
-            masks[masks.length - 1] = newMask;
-        }
-        System.out.println("You added a new mask successfully.");
+        if(newMask != null)
+            maskRepository.addMask(newMask);
     }
 
     public void listMasks(){
-        if (masks == null){
-            System.out.println("There are no masks.");
-        }else {
-            int k = 0;
+        maskRepository.printMasks();
+    }
 
-            System.out.println("Here are all the masks.");
-            for (Mask m : masks) {
-                System.out.println(k++ + ") " + m);
+    public void showMask(int type){
+        Reader objReader = Reader.getInstance();
+        try {
+            if (type == 1) { //surgical
+               maskRepository.showSGMask(objReader.readIndex());
+            } else if (type == 2) { //polycarbonate
+                maskRepository.showPCMask(objReader.readIndex());
             }
+        }catch (InputMismatchException e){
+            System.out.println("Invalid input!");
         }
     }
 
-    public void deleteMask(int index){
-        if (masks == null){
-            System.out.println("There are no masks yet.");
-            return;
-        }
-
-        if(index < 0 || index >= masks.length){
-            System.out.println("Could't find mask with index " + index);
-        }else{
-            for (int i = index; i < masks.length - 1; i++){
-                masks[i] = masks[i + 1];
+    public void deleteMask(int type){
+        Reader objReader = Reader.getInstance();
+        try {
+            if (type == 1) { //surgical
+                if (maskRepository.printSGMasks())
+                    maskRepository.deleteSGMask(objReader.readIndex());
+            } else if (type == 2) { //polycarbonate
+                if (maskRepository.printPCMasks())
+                    maskRepository.deletePCMask(objReader.readIndex());
             }
-            masks = Arrays.copyOf(masks, masks.length - 1);
+        }catch (InputMismatchException e){
+            System.out.println("Invalid input!");
         }
     }
 
     public void addSanitizer(Sanitizer newSanitizer){
-        if(newSanitizer == null){
-            System.out.println("Error in creating sanitizer!");
-            return;
-        }
-
-        if (sanitizers == null){
-            sanitizers = new Sanitizer[1];
-            sanitizers[0] = newSanitizer;
-        } else {
-            for (Sanitizer a : sanitizers){
-                if (a.equals(newSanitizer)){
-                    System.out.println("This sanitizer already exists.");
-                    return;
-                }
-            }
-            sanitizers = Arrays.copyOf(sanitizers, sanitizers.length + 1);
-            sanitizers[sanitizers.length - 1] = newSanitizer;
-        }
-        System.out.println("You added a new sanitizer successfully.");
+        if(newSanitizer != null)
+            sanitizerRepository.addSanitizer(newSanitizer);
     }
 
     public void listSanitizers(){
-        if (sanitizers == null){
-            System.out.println("There are no sanitizers.");
-        }else {
-            int k = 0;
-            System.out.println("Here are all the sanitizers.");
-            for (Sanitizer s: sanitizers) {
-                System.out.println(k++ + ")" + s);
+        sanitizerRepository.printSanitizers();
+    }
+
+    public void showSanitizer(int type){
+        Reader objReader = Reader.getInstance();
+        try{
+            if(type == 1){ //bacteria
+                sanitizerRepository.showBCSanitizer(objReader.readIndex());
+            }else if(type == 2){ //virus
+                sanitizerRepository.showVSSanitizer(objReader.readIndex());
+            }else if(type == 3){ //fungal
+                sanitizerRepository.showFGSanitizer(objReader.readIndex());
             }
+        }catch (InputMismatchException e){
+            System.out.println("Invalid input!");
         }
     }
 
-    public void deleteSanitizer(int index){
-        if (sanitizers == null){
-            System.out.println("There are no sanitizers yet.");
-            return;
-        }
-
-        if(index < 0 || index >= sanitizers.length){
-            System.out.println("Could't find sanitizer with index " + index);
-        }else{
-            for (int i = index; i < sanitizers.length - 1; i++){
-                sanitizers[i] = sanitizers[i + 1];
+    public void deleteSanitizer(int type){
+        Reader objReader = Reader.getInstance();
+        try{
+            if(type == 1){ //bacteria
+                if(sanitizerRepository.printBCSanitizers())
+                    sanitizerRepository.deleteBCSanitizer(objReader.readIndex());
+            }else if(type == 2){ //virus
+                if(sanitizerRepository.printVSSanitizers())
+                    sanitizerRepository.deleteVSSanitizer(objReader.readIndex());
+            }else if(type == 3){ //fungal
+                if(sanitizerRepository.printFGSanitizers())
+                    sanitizerRepository.deleteFGSanitizer(objReader.readIndex());
             }
-            sanitizers = Arrays.copyOf(sanitizers, sanitizers.length - 1);
+        }catch (InputMismatchException e){
+            System.out.println("Invalid input!");
         }
     }
 
     public void addClient(Client newClient){
-        if(newClient == null){
-            System.out.println("Error in creating client!");
-            return;
-        }
-
-        if (clients == null){
-            clients = new Client[1];
-            clients[0] = newClient;
-        } else {
-            for (Client c : clients){
-                if (c.equals(newClient)){
-                    System.out.println("This client already exists.");
-                    return;
-                }
-            }
-            clients = Arrays.copyOf(clients, clients.length + 1);
-            clients[clients.length - 1] = newClient;
-        }
-        System.out.println("You added a new client successfully.");
+        if(newClient != null)
+            clientRepository.addClient(newClient);
     }
 
     public void listClients(){
-        if (clients == null){
-            System.out.println("There are no clients.");
-        }else {
-            int k = 0;
-            System.out.println("Here are all the clients.");
-            for (Client c : clients) {
-                System.out.println(k++ + ")" + c);
-            }
-        }
+        clientRepository.printClients();
+    }
+
+    public void updateClient(int ID, Client newClient){
+        if(newClient != null)
+            clientRepository.updateClient(ID, newClient);
     }
 
     public void addAcquisition(Acquisition newAcquisition){
-        if(newAcquisition == null){
-            System.out.println("Error in creating acquisition!");
-            return;
-        }
-
-        if (acquisitions == null){
-            acquisitions = new Acquisition[1];
-            acquisitions[0] = newAcquisition;
-        } else {
-            acquisitions = Arrays.copyOf(acquisitions, acquisitions.length + 1);
-            acquisitions[acquisitions.length - 1] = newAcquisition;
-        }
-        System.out.println("You added a new acquisition successfully.");
+        if(newAcquisition != null)
+            acquisitionRepository.addAcquisition(newAcquisition);
     }
     public void listAcquisitions(){
-        if (acquisitions == null){
-            System.out.println("There are no acquisitions.");
-        }else {
-            int k = 0;
-            System.out.println("Here are all the acquisitions.");
-            for (Acquisition a : acquisitions) {
-                System.out.println(k++ + ")" + a);
-            }
-        }
+        acquisitionRepository.printAquisitions();
     }
 
     public void incomeDate(int month, int year){
-        double totalIncome = 0;
-        Calendar cal = Calendar.getInstance();
-
-        if(acquisitions == null){
-            System.out.println("There are no acquisitions yet!");
-            return;
-        }
-
-        for(Acquisition acquisition : acquisitions) {
-            cal.setTime(acquisition.getDate());
-            int acquisitionMonth = cal.get(Calendar.MONTH) + 1;
-            int acquisitionYear = cal.get(Calendar.YEAR);
-
-            if(acquisitionMonth == month && acquisitionYear == year) {
-                totalIncome += acquisition.getTotalPrice();
-            }
-        }
-
-        System.out.println("Total income for month = " + month + ", year = " + year + " = " + totalIncome);
+        double totalIncome = acquisitionRepository.getAcquisitionMonthYear(month, year);
+        if(totalIncome > 0)
+            System.out.println("Total income for month = " + month + ", year = " + year + " = " + totalIncome);
     }
 
     public void VAT(int year){
-        double vat = 0;
-        Calendar cal = Calendar.getInstance();
-
-        if(acquisitions == null){
-            System.out.println("There are no acquisitions yet!");
-            return;
-        }
-
-        for(Acquisition acquisition : acquisitions) {
-            cal.setTime(acquisition.getDate());
-            int acquisitionYear = cal.get(Calendar.YEAR);
-
-            if(acquisitionYear == year) {
-                vat += acquisition.getTotalPrice();
-            }
-        }
-
-        vat = vat * 0.19;
-
-        System.out.println("Total VAT in the year = " + year + " = " + vat);
+        double vat = acquisitionRepository.getAcquisitionYear(year);
+        if (vat > 0)
+            System.out.println("Total VAT in the year = " + year + " = " + vat);
     }
 
 
-
     public void sortedSanitizers(){
-        if(sanitizers == null){
-            System.out.println("There are no sanitizers to be sorted");
-            return;
+        DataDictionary dataDictionary = DataDictionary.getInstance();
+        if(dataDictionary.emptyBacterialSanitizersPrice() &&
+            dataDictionary.emptyFungalSanitizersPrice() &&
+            dataDictionary.emptyVirusSanitizerPrice()){
+                System.out.println("There are no sanitizers to be sorted!");
+                return;
         }
 
-        Sanitizer[] sortedSanitizers = Arrays.copyOf(sanitizers, sanitizers.length);
-        sort(sortedSanitizers);
+        Sanitizer[] sortedSanitizers = sanitizerRepository.getAllSanitizers();
+        if(sortedSanitizers != null) {
+            sort(sortedSanitizers);
 
-        int k = 0;
-        System.out.println("Here are all the sorted sanitizers.");
-        for (Sanitizer s: sortedSanitizers) {
-            System.out.println(k++ + ")" + s);
+            System.out.println("Here are all the sorted sanitizers.");
+            for (Sanitizer s : sortedSanitizers) {
+                System.out.println(s);
+            }
+        }else{
+            System.out.println("There were no sanitizers!");
+        }
+    }
+
+    public void closeConnection()
+    {
+        try
+        {
+            DBFunctions.closeDatabaseConnection();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
         }
     }
 }

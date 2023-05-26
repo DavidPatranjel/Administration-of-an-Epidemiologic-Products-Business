@@ -42,4 +42,16 @@ public class Client {
                 ", address=" + address +
                 '}';
     }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public String getCUI() {
+        return CUI;
+    }
+
+    public Address getAddress() {
+        return new Address(address);
+    }
 }

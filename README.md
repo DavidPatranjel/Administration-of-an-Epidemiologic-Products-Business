@@ -1,5 +1,5 @@
 # Administration of an Epidemiologic Products Business
-## **Etapa 1**
+## **Etapa 1 si 2**
 
 ### **Tema proiectului**
 Implementarea unui sistem de gestiune al unei firme de produse sanitare epidemiologice (masti si dezinfectanti). Mastile fabricate sunt chirurgicale si din policarbonat, iar dezinfectantii fabricati sunt impotriva bacteriilor, impotriva fungilor sau impotriva virusurilor.
@@ -46,7 +46,9 @@ In afara de clasele specificate mai sus, programul prezinta si un pachet **App**
 - **clasa Menu**: are implementata o metoda specifica meniului interactiv si instantiaza un obiect service (Clasa creata folosind un design pattern - singleton).
 - **clasa Service**: are implementate toate metodele specificate in meniu (Clasa creata folosind un design pattern - singleton).
 - **clasa Reader**: are implementate metodele de citire a datelor de la tastatura in scopul crearii de obiecte noi (Clasa creata folosind un design pattern - singleton).
-
+- **clasa DBFunctions**: are implementate metodele de conectare si deconectare de la baza de date (PostgreSQL) (Clasa creata folosind un design pattern - singleton).
+- **clasa Audit**: are implementata o metoda de logare intr-un fisier CSV a actiunilor realizate intr-o sesiune din cadrul aplicatiei (Clasa creata folosind un design pattern - singleton).
+- **clasa DataDictionary**: contine disctioanre cu tote PK/cheile inregistrarilor din BD si are implementate metode de manevrare mai facila a datelor (Clasa creata folosind un design pattern - singleton).
 
 ### **Meniul aplicatiei**
 
